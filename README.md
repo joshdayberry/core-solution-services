@@ -48,7 +48,9 @@ Please be aware of our [troubleshooting resources](https://github.com/GoogleClou
 ### Set up the GCP Project
 
 We recommend starting from a brand new GCP project. Create a new GCP project at https://console.cloud.google.com/projectcreate
-
+```
+export PROJECT_ID=<my-project-id>
+```
 ### Enable Cloud Identity Platform
 
 Follow the steps below to enable Cloud Identity Platform and add Email/Password provider: (For Authentication)
@@ -63,6 +65,7 @@ Make sure that policies are not enforced (`enforce: false` or `NOT_FOUND`). You 
 gcloud resource-manager org-policies disable-enforce constraints/compute.requireOsLogin --project="${PROJECT_ID}"
 gcloud resource-manager org-policies delete constraints/compute.vmExternalIpAccess --project="${PROJECT_ID}"
 gcloud resource-manager org-policies delete constraints/iam.allowedPolicyMemberDomains --project="${PROJECT_ID}"
+gcloud resource-manager org-policies disable-enforce constraints/compute.requireShieldedVm --project="${PROJECT_ID}"
 ```
 
 ### Clone repo
@@ -79,7 +82,7 @@ Make sure you have Python version 3.9 or greater.
 ```
 python3 --version
 ```
-Create a virtual environment and activate it.
+Create a [virtual environment](https://docs.python.org/3/tutorial/venv.html) and activate it.
 ```
 python3 -m venv .venv
 source .venv/bin/activate
@@ -95,7 +98,6 @@ sb version
 
 ### Set up `gcloud` CLI
 ```
-export PROJECT_ID=<my-project-id>
 gcloud auth login
 gcloud auth application-default login
 gcloud config set project ${PROJECT_ID}
@@ -124,9 +126,9 @@ echo Jump host zone is ${JUMP_HOST_ZONE}
 gcloud compute ssh jump-host --zone=${JUMP_HOST_ZONE} --tunnel-through-iap --project=${PROJECT_ID}
 ```
 
-Check the status of the installation:
+On the jump host execute this loop which will wait for a temp file that should exist when the instance setup is complete.  This could take from a few seconds to a few minutes.
 ```
-ls -la /tmp/jumphost_ready
+while ! [ -f /tmp/jumphost_ready ]; do echo "#"; sleep 1; done;
 ```
 - If the file `jumphost_ready` exists, it means the jumphost is ready to deploy the rest of the resources.  If not, please wait for a few minutes.
 - You should start with a clean copy of the repository.
