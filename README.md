@@ -166,6 +166,9 @@ Run the rest of the deployment steps from within this jumphost.
 Apply infra/terraform for the foundation and load balancer:
 ```
 sb infra apply 1-bootstrap
+```
+add step for troubelshooting
+``
 sb infra apply 2-foundation
 sb infra apply 3-gke
 sb infra apply 3-gke-ingress
@@ -175,6 +178,7 @@ sb infra apply 3-gke-ingress
 ![Alt text](.github/assets/dns_a_record.png)
 - Set the IP address to the external IP address in the ingress.
 
+Be SURE TO SET openai and cohere APIs
 Apply infra/terraform for LLM service:
 ```
 sb infra apply 4-llm
