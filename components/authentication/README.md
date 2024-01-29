@@ -7,8 +7,12 @@
 - Go to GCP console and [enable the Identity Platform](https://console.cloud.google.com/customer-identity).
   ![Enable IDP](../../.github/assets/idp_enable.png)
 
-- Add an Email/Password provider [in Identity Platform page](https://console.cloud.google.com/customer-identity/providers):
-  ![Add IDP provider](../../.github/assets/idp_add_provider.png)
+- Click "Add A Provider"
+- Select "Email / Password"
+- Toggle "Enabled" to On
+- Uncheck "Allow passwordless login"
+- Click Save
+  
 
 - Make sure to enable the Email/Password provider as the screenshot below:
   ![Alt text](../../.github/assets/idp_emailpass.png)
